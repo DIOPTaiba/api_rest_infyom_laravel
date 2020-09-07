@@ -9,7 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
-
+//Controlleur de l'entité OPerations
 class OperationsController extends AppBaseController
 {
     /** @var  OperationsRepository */

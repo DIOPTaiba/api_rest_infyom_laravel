@@ -37,7 +37,7 @@ class Comptes extends Model
     protected $dates = ['deleted_at'];
 
 
-
+//Champs dans la table Compte
     public $fillable = [
         'id_clients',
         'numero_compte',

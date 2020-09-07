@@ -10,7 +10,7 @@ use App\Repositories\BaseRepository;
  * @package App\Repositories
  * @version September 6, 2020, 8:25 pm UTC
 */
-
+//Repository Comptes
 class ComptesRepository extends BaseRepository
 {
     /**

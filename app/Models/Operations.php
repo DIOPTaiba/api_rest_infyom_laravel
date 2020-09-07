@@ -59,6 +59,7 @@ class Operations extends Model
      *
      * @var array
      */
+    //Champs dans la table Operations
     public static $rules = [
         'type_operation' => 'required|string|max:255',
         'montant' => 'required|integer',
