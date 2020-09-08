@@ -8,6 +8,7 @@ use App\Models\Operations;
 use App\Repositories\OperationsRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 /**
@@ -60,17 +61,18 @@ class OperationsAPIController extends AppBaseController
         return $this->sendResponse($operations->toArray(), 'Operations saved successfully');
     }
 
-    /**
+    //Affiche une opération selon l'id donné
+    /* /**
      * Display the specified Operations.
      * GET|HEAD /operations/{id}
      *
      * @param int $id
      *
      * @return Response
-     */
+     * /
     public function show($id)
     {
-        /** @var Operations $operations */
+        /** @var Operations $operations * /
         $operations = $this->operationsRepository->find($id);
 
         if (empty($operations)) {
@@ -78,6 +80,32 @@ class OperationsAPIController extends AppBaseController
         }
 
         return $this->sendResponse($operations->toArray(), 'Operations retrieved successfully');
+    } */
+
+    //Recupération de toutes les opérations suivant le numéro compte donné
+    /**
+     * Display the specified Operations.
+     * GET|HEAD /operations/{numCompte}
+     *
+     * @param string $numCompte
+     *
+     * @return Response
+     */
+    public function show($numCompte)
+    {
+        //Recupération de l'id suivant le numéro_compte
+        $comptes = DB::table('comptes')->where('numero_compte', $numCompte)->first();
+        $id = $comptes->id;
+
+        /** @var Operations $operations */
+        //$operations = $this->operationsRepository->find($id);
+        $operations = DB::table('operations')->where('id_compte_source_id', $id)->get();
+
+        if (empty($operations)) {
+            return $this->sendError('Operations not found');
+        }
+
+        return $this->sendResponse($operations, 'Operations retrieved successfully');
     }
 
     /**

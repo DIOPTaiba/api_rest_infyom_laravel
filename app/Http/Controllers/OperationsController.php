@@ -6,10 +6,11 @@ use App\Http\Requests\CreateOperationsRequest;
 use App\Http\Requests\UpdateOperationsRequest;
 use App\Repositories\OperationsRepository;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
-//Controlleur de l'entité OPerations
+//Controlleur Opérations
 class OperationsController extends AppBaseController
 {
     /** @var  OperationsRepository */
@@ -63,13 +64,13 @@ class OperationsController extends AppBaseController
         return redirect(route('operations.index'));
     }
 
-    /**
+    /* /**
      * Display the specified Operations.
      *
      * @param int $id
      *
      * @return Response
-     */
+     * /
     public function show($id)
     {
         $operations = $this->operationsRepository->find($id);
@@ -81,6 +82,31 @@ class OperationsController extends AppBaseController
         }
 
         return view('operations.show')->with('operations', $operations);
+    } */
+
+    //Recupération infos opérations sur 1 compte donné
+    /**
+     * Display the specified Operations.
+     *
+     * @param string $numCompte
+     *
+     * @return Response
+     */
+    public function show($numCompte)
+    {
+        $comptes = DB::table('comptes')->where('numero_compte', $numCompte)->first();
+        
+        $id = $comptes->id;
+        
+        $operations = DB::table('operations')->where('id_compte_source_id', $id)->get();
+        
+        if (empty($operations)) {
+            Flash::error('Operations not found');
+
+            return redirect(route('operations.index'));
+        }
+
+        return view('operations.index')->with('operations', $operations);
     }
 
     /**
