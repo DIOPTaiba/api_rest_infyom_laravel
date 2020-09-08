@@ -8,6 +8,7 @@ use App\Models\Comptes;
 use App\Repositories\ComptesRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 /**
@@ -60,17 +61,17 @@ class ComptesAPIController extends AppBaseController
         return $this->sendResponse($comptes->toArray(), 'Comptes saved successfully');
     }
 
-    /**
+    /* /**
      * Display the specified Comptes.
      * GET|HEAD /comptes/{id}
      *
      * @param int $id
      *
      * @return Response
-     */
+     * /
     public function show($id)
     {
-        /** @var Comptes $comptes */
+        /** @var Comptes $comptes * /
         $comptes = $this->comptesRepository->find($id);
 
         if (empty($comptes)) {
@@ -78,6 +79,27 @@ class ComptesAPIController extends AppBaseController
         }
 
         return $this->sendResponse($comptes->toArray(), 'Comptes retrieved successfully');
+    } */
+
+    /**
+     * Display the specified Comptes.
+     * GET|HEAD /comptes/{numerocompte}
+     *
+     * @param string $numCompte
+     *
+     * @return Response
+     */
+    public function show($numCompte)
+    {
+        /** @ var Comptes $comptes */
+        //$comptes = $this->comptesRepository->find($numCompte);
+        $comptes = DB::table('comptes')->where('numero_compte', $numCompte)->first();
+
+        if (empty($comptes)) {
+            return $this->sendError('Comptes not found');
+        }
+
+        return $this->sendResponse($comptes, 'Comptes retrieved successfully');
     }
 
     /**

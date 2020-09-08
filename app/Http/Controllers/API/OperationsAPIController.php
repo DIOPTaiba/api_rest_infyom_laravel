@@ -97,7 +97,7 @@ class OperationsAPIController extends AppBaseController
         $comptes = DB::table('comptes')->where('numero_compte', $numCompte)->first();
         $id = $comptes->id;
 
-        /** @var Operations $operations */
+        /** @ var Operations $operations */
         //$operations = $this->operationsRepository->find($id);
         $operations = DB::table('operations')->where('id_compte_source_id', $id)->get();
 
